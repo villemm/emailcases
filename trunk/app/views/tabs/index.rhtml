@@ -1,0 +1,66 @@
+<head>
+  <title>Tasks</title>
+  <%= stylesheet_link_tag 'ajax_scaffold', :media => 'all' %>
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'rico_corner', 'ajax_scaffold' %>
+</head>
+
+<script type="text/javascript">
+function tabselect(tab) {
+  var tablist = $('tabcontrol1').getElementsByTagName('li');
+  var nodes = $A(tablist);
+  var lClassType = tab.className.substring(0, tab.className.indexOf('-') );
+
+  nodes.each(function(node){
+    if (node.id == tab.id) {
+      tab.className=lClassType+'-selected';
+    } else {
+      node.className=lClassType+'-unselected';
+    };
+  });
+}
+
+function paneselect(pane) {
+  var panelist = $('panecontrol1').getElementsByTagName('li');
+  var nodes = $A(panelist);
+
+  nodes.each(function(node){
+    if (node.id == pane.id) {
+      pane.className='pane-selected';
+    } else {
+      node.className='pane-unselected';
+    };
+  });
+}
+
+function loadPane(pane, src) {
+  if (pane.innerHTML=='' || pane.innerHTML=='<img alt="Wait" src="/images/spinner.gif" style="vertical-align:-3px" /> Loading...') {
+    reloadPane(pane, src);
+  }
+}
+
+function reloadPane(pane, src) {
+  new Ajax.Updater(pane, src, {asynchronous:1, evalScripts:true, onLoading:function(request){pane.innerHTML='<img alt="Wait" src="/images/spinner.gif" style="vertical-align:-3px" /> Loading...'}})
+}
+</SCRIPT>
+
+<ul class="tabselector" id="tabcontrol1">
+  <li class="tab-selected" id="task_tab">
+    <%= link_to_function('Task', "tabselect($('task_tab')); paneselect($('task_pane'))") %></li>
+  <li class="tab-unselected" id="person_tab">
+    <%= link_to_function('People', "loadPane($('person_pane'), '" + url_for(:action => 'people', :id => @task) + "'), tabselect($('person_tab')); paneselect($('person_pane'))") %></li>
+  <li class="tab-unselected" id="duration_tab">
+    <%= link_to_function('Durations', "loadPane($('duration_pane'), '" + url_for(:action => 'durations', :id => @task) + "'), tabselect($('duration_tab')); paneselect($('duration_pane'))") %></li>
+</ul>
+
+<ul class="panes" id="panecontrol1">
+  <li id="task_pane" class="pane-selected">
+	<%= render_component :controller => '/tasks', :action => 'component', :params => params %>
+  </li>
+  <li id="person_pane" class="pane-unselected">
+	<%= render_component :controller => '/people', :action => 'component', :params => params %>
+</li>
+  <li id="duration_pane" class="pane-unselected">
+	<%= render_component :controller => '/durations', :action => 'component', :params => params %>
+  </li>
+<ul>

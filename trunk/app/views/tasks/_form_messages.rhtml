@@ -1,0 +1,5 @@
+<%= render :partial => 'messages' %>
+
+<% unless @task.nil? %>
+<%= error_messages_for 'task' %>
+<% end %>

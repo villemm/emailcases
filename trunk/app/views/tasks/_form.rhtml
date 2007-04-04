@@ -1,0 +1,20 @@
+<fieldset>
+  <div class="row">
+    <!--[form:task]-->
+<div class="form-element">
+  <label for="task_name">Name</label>
+  <%= text_field 'task', 'name' , {:class=>"text-input"} %>
+</div>
+<div class="form-element">
+  <label for="task_person">person</label>
+  <%= select 'task', 'person_id' , Person.find_all.collect {|p| [ p.lastname, p.id ] } %>
+</div>
+<div class="form-element">
+  <label for="task_duration">duration</label>
+  <%= select 'task', 'duration_id' , Duration.find_all.collect {|d| [ d.category, d.id ] } %>
+</div>
+
+<!--[eoform:task]-->
+
+  </div>
+</fieldset>

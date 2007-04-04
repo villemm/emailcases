@@ -1,0 +1,8 @@
+<% for column in Duration.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @duration.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @duration %> |
+<%= link_to 'Back', :action => 'list' %>
