@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 3) do
     t.column "name",        :string
     t.column "duration_id", :integer
     t.column "person_id",   :integer
+    t.column "updated_on",  :datetime
+    t.column "created_on",  :datetime
   end
 
 end
